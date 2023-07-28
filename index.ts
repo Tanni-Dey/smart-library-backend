@@ -1,4 +1,4 @@
-import { MongoClient, ServerApiVersion } from "mongodb";
+import { MongoClient, ObjectId, ServerApiVersion } from "mongodb";
 require("dotenv").config();
 import express, { Application, Request, Response } from "express";
 import cors from "cors";
@@ -26,6 +26,16 @@ const run = async () => {
       const findBooks = bookCollection.find({});
       const allBooks = await findBooks.toArray();
       res.send({ sucess: true, data: allBooks });
+    });
+    app.get("/book-details/:id", async (req: Request, res: Response) => {
+      const id = req.params.id;
+      const findBook = await bookCollection.findOne({ _id: new ObjectId(id) });
+      res.send({ sucess: true, data: findBook });
+    });
+    app.post("/add-book", async (req: Request, res: Response) => {
+      const newBook = req.body;
+      const addBook = await bookCollection.insertOne(newBook);
+      res.send({ sucess: true, data: addBook });
     });
   } finally {
   }
