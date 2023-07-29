@@ -37,6 +37,20 @@ const run = async () => {
       const addBook = await bookCollection.insertOne(newBook);
       res.send({ sucess: true, data: addBook });
     });
+    app.put("/add-review/:id", async (req: Request, res: Response) => {
+      const id = req.params.id;
+      const newReview = req.body;
+      const addReview = await bookCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $push: newReview }
+      );
+      res.send({ sucess: true, data: addReview });
+    });
+    app.get("/reviews/:id", async (req: Request, res: Response) => {
+      const id = req.params.id;
+      const findBook = await bookCollection.findOne({ _id: new ObjectId(id) });
+      res.send({ sucess: true, data: findBook?.reviews });
+    });
   } finally {
   }
 };
