@@ -51,6 +51,15 @@ const run = async () => {
       const findBook = await bookCollection.findOne({ _id: new ObjectId(id) });
       res.send({ sucess: true, data: findBook?.reviews });
     });
+    app.put("/edit-book/:id", async (req: Request, res: Response) => {
+      const id = req.params.id;
+      const newBookData = req.body;
+      const editBook = await bookCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $set: newBookData }
+      );
+      res.send({ sucess: true, data: editBook });
+    });
   } finally {
   }
 };
