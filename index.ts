@@ -60,6 +60,13 @@ const run = async () => {
       );
       res.send({ sucess: true, data: editBook });
     });
+    app.delete("/book/:id", async (req: Request, res: Response) => {
+      const id = req.params.id;
+      const deleteBook = await bookCollection.deleteOne({
+        _id: new ObjectId(id),
+      });
+      res.send({ sucess: true, data: deleteBook });
+    });
   } finally {
   }
 };
