@@ -67,6 +67,16 @@ const run = async () => {
       });
       res.send({ sucess: true, data: deleteBook });
     });
+
+    app.put("/add-to-wishlist/:id", async (req: Request, res: Response) => {
+      const id = req.params.id;
+      const user = req.body;
+      const addToWishlist = await bookCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $push: user }
+      );
+      res.send({ sucess: true, data: addToWishlist });
+    });
   } finally {
   }
 };
