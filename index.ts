@@ -77,6 +77,13 @@ const run = async () => {
       );
       res.send({ sucess: true, data: addToWishlist });
     });
+
+    app.get("/my-wishlist/:email", async (req: Request, res: Response) => {
+      const email = req.params.email;
+      const findBooks = bookCollection.find({ wishlist: email });
+      const allWishlistBooks = await findBooks.toArray();
+      res.send({ sucess: true, data: allWishlistBooks });
+    });
   } finally {
   }
 };
