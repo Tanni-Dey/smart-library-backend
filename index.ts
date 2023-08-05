@@ -84,6 +84,16 @@ const run = async () => {
       const allWishlistBooks = await findBooks.toArray();
       res.send({ sucess: true, data: allWishlistBooks });
     });
+
+    app.put("/add-read-complete/:id", async (req: Request, res: Response) => {
+      const id = req.params.id;
+      const user = req.body;
+      const addToReadCompleted = await bookCollection.updateOne(
+        { _id: new ObjectId(id) },
+        { $push: user }
+      );
+      res.send({ sucess: true, data: addToReadCompleted });
+    });
   } finally {
   }
 };
